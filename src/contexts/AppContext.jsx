@@ -44,7 +44,7 @@ const AppContextProvider = ({ children }) => {
   async function createCard() {
     setLoader(true);
 
-    localStorage.setItem("cardDetails", JSON.stringify(formData));
+    localStorage.removeItem("cardDetails");
 
     const user = `${formData?.first_name}-${formData?.middle_name}-${formData?.last_name}`;
     const docRef = doc(db, "cards", user);
@@ -57,6 +57,7 @@ const AppContextProvider = ({ children }) => {
         await setDoc(docRef, {
           ...formData,
         });
+        localStorage.setItem("cardDetails", JSON.stringify(formData));
         navigate("/card");
       }
     } catch (error) {

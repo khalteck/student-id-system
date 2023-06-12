@@ -129,7 +129,7 @@ const Homepage = () => {
             <div className="w-full">
               <label htmlFor="level">Level</label>
               <input
-                type="number"
+                type="text"
                 id="level"
                 value={formData.level}
                 onChange={handleChange}
