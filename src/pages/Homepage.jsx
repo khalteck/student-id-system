@@ -11,6 +11,7 @@ const Homepage = () => {
     validateErr,
     createCard,
     loader,
+    cardExists,
   } = useAppContext();
 
   const handleSubmit = async (e) => {
@@ -24,7 +25,6 @@ const Homepage = () => {
       formData?.school &&
       formData?.level
     ) {
-      console.log(formData);
       await createCard();
     } else {
       setValidateErr("Please fill all fields!");
@@ -139,8 +139,13 @@ const Homepage = () => {
               />
             </div>
             {validateErr && <p className="text-red-500">{validateErr}</p>}
+            {cardExists && (
+              <p className="text-red-500">
+                You have registered for a card already
+              </p>
+            )}
             <button
-              // onClick={() => navigate("/")}
+              onClick={(e) => handleSubmit(e)}
               className="w-[200px] px-5 py-2 bg-[#e27631] uppercase text-[.85rem] text-white font-medium hover:bg-[#e27631]/70"
             >
               Submit

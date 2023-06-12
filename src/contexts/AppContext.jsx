@@ -1,5 +1,7 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { createContext, useContext, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { db } from "../firebase/firebase-config";
 
 export const AppContext = createContext();
 
@@ -7,25 +9,31 @@ export const AppContext = createContext();
 const AppContextProvider = ({ children }) => {
   const location = useLocation();
   let currentPage = location.pathname;
+  const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
   const [loader, setLoader] = useState(false);
 
   const [validateErr, setValidateErr] = useState("");
 
-  const [formData, setFormData] = useState({
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    dob: "",
-    nationality: "",
-    school: "",
-    level: 0,
-  });
+  const [formData, setFormData] = useState(
+    JSON.parse(localStorage.getItem("cardDetails")) || {
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      dob: "",
+      nationality: "",
+      school: "",
+      level: "",
+    }
+  );
   //   console.log("formData", formData);
+
+  const [cardExists, setCardExists] = useState(false);
 
   const handleChange = (e) => {
     setValidateErr("");
+    setCardExists(false);
     const { id, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -33,16 +41,30 @@ const AppContextProvider = ({ children }) => {
     }));
   };
 
-  // async function createCard() {
-  //   setLoader(true);
+  async function createCard() {
+    setLoader(true);
 
-  //   const user = `${formData?.first_name}-${formData?.middle_name}-${formData?.last_name}`
-  //   await setDoc(doc(db, "cards", `${user}`), {
-  //     ...formData,
-  //   });
+    localStorage.setItem("cardDetails", JSON.stringify(formData));
 
-  //   setLoader(false);
-  // }
+    const user = `${formData?.first_name}-${formData?.middle_name}-${formData?.last_name}`;
+    const docRef = doc(db, "cards", user);
+
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setCardExists(true);
+      } else {
+        await setDoc(docRef, {
+          ...formData,
+        });
+        navigate("/card");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    setLoader(false);
+  }
 
   return (
     <AppContext.Provider
@@ -53,7 +75,9 @@ const AppContextProvider = ({ children }) => {
         formData,
         setValidateErr,
         validateErr,
-        // createCard
+        createCard,
+        cardExists,
+        setFormData,
       }}
     >
       {children}
