@@ -12,6 +12,10 @@ const Homepage = () => {
     createCard,
     loader,
     cardExists,
+    getData,
+    handleImageUpload,
+    showImageErr,
+    uploadErr,
   } = useAppContext();
 
   const handleSubmit = async (e) => {
@@ -30,6 +34,22 @@ const Homepage = () => {
       setValidateErr("Please fill all fields!");
     }
   };
+
+  const departmentOptions = [
+    { id: 1, name: "Computer Science" },
+    { id: 2, name: "Hospitality Management & Technology" },
+    { id: 3, name: "Accounting" },
+    { id: 4, name: "Office Technology Management" },
+    { id: 5, name: "Mass Communication" },
+    { id: 6, name: "Marketing" },
+    { id: 7, name: "Civil Engineering" },
+    { id: 8, name: "Mechanical Engineering" },
+    { id: 9, name: "Electrical Engineering" },
+    { id: 10, name: "Mathematics" },
+    { id: 11, name: "Statistics" },
+    { id: 12, name: "Computer Engineering" },
+  ];
+
   return (
     <>
       <Header />
@@ -55,7 +75,7 @@ const Homepage = () => {
               <input
                 type="text"
                 id="first_name"
-                value={formData.first_name}
+                value={formData?.first_name}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.first_name ? "border-red-500" : null
@@ -67,7 +87,7 @@ const Homepage = () => {
               <input
                 type="text"
                 id="middle_name"
-                value={formData.middle_name}
+                value={formData?.middle_name}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.middle_name
@@ -81,19 +101,42 @@ const Homepage = () => {
               <input
                 type="text"
                 id="last_name"
-                value={formData.last_name}
+                value={formData?.last_name}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.last_name ? "border-red-500" : null
                 }`}
               />
             </div>
+            <div className="w-full relative">
+              {(!formData?.first_name ||
+                !formData?.middle_name ||
+                !formData?.last_name) && (
+                <div
+                  onClick={showImageErr}
+                  className="w-full h-full absolute top-0 left-0 cursor-pointer"
+                ></div>
+              )}
+              <label htmlFor="photo">Upload Image</label>
+              <input
+                type="file"
+                id="photo"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e)}
+                className="w-full p-2 border outline-[#e27631]/50"
+              />
+              {uploadErr && (
+                <p className="text-red-500">
+                  Please fill in the fields above first.
+                </p>
+              )}
+            </div>
             <div className="w-full">
               <label htmlFor="dob">Date of Birth</label>
               <input
                 type="date"
                 id="dob"
-                value={formData.dob}
+                value={formData?.dob}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.dob ? "border-red-500" : null
@@ -102,46 +145,82 @@ const Homepage = () => {
             </div>
             <div className="w-full">
               <label htmlFor="nationality">Nationality</label>
-              <input
-                type="text"
+              <select
                 id="nationality"
-                value={formData.nationality}
+                value={formData?.nationality}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.nationality
                     ? "border-red-500"
                     : null
                 }`}
-              />
+              >
+                <option value="" hidden>
+                  Select
+                </option>
+                <option value="nigerian">Nigerian</option>
+              </select>
             </div>
+
             <div className="w-full">
               <label htmlFor="school">School</label>
-              <input
-                type="text"
+              <select
                 id="school"
-                value={formData.school}
+                value={formData?.school}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.school ? "border-red-500" : null
                 }`}
-              />
+              >
+                <option value="" hidden>
+                  Select
+                </option>
+                <option value="Yaba College of Technology">
+                  Yaba College of Technology
+                </option>
+              </select>
             </div>
+
             <div className="w-full">
               <label htmlFor="level">Level</label>
               <input
                 type="text"
                 id="level"
-                value={formData.level}
+                value={formData?.level}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
                   validateErr && !formData?.level ? "border-red-500" : null
                 }`}
               />
             </div>
+            <div className="w-full">
+              <label htmlFor="department">Department</label>
+              <select
+                id="department"
+                value={formData?.department}
+                onChange={handleChange}
+                className={`w-full p-2 border outline-[#e27631]/50 ${
+                  validateErr && !formData?.department ? "border-red-500" : null
+                }`}
+              >
+                <option value="" hidden>
+                  Select
+                </option>
+                {departmentOptions.map((option) => (
+                  <option key={option.name} value={option.name}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {validateErr && <p className="text-red-500">{validateErr}</p>}
             {cardExists && (
               <p className="text-red-500">
-                You have registered for a card already
+                You have registered for a card already{" "}
+                <span className="underline cursor-pointer" onClick={getData}>
+                  View details?
+                </span>
               </p>
             )}
             <button
