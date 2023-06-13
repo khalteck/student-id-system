@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://student-id-system.netlify.app/", "localhost:5173", "*"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

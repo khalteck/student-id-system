@@ -120,20 +120,26 @@ const AppContextProvider = ({ children }) => {
     setPhoto(selectedFile);
 
     try {
-      await uploadBytes(storageRef, selectedFile);
-      const path = `photos/${user}`;
+      // Check if image already exists
+      const imageRef = ref(storage, `photos/${user}`);
+      await getDownloadURL(imageRef);
+      console.log("Image already exists. Skipping upload.");
+    } catch (error) {
+      try {
+        // Upload image
+        await uploadBytes(storageRef, selectedFile);
+        const path = `photos/${user}`;
 
-      const imageRef = ref(storage, path);
-      const downloadURL = await getDownloadURL(imageRef);
-      setFormData((prev) => {
-        return {
+        const imageRef = ref(storage, path);
+        const downloadURL = await getDownloadURL(imageRef);
+        setFormData((prev) => ({
           ...prev,
           photo: downloadURL,
-        };
-      });
-      console.log("Uploaded photo!");
-    } catch (error) {
-      console.error("Error uploading file:", error);
+        }));
+        console.log("Uploaded photo!");
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     }
   }
 

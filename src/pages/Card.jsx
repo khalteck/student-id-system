@@ -3,12 +3,13 @@ import { useAppContext } from "../contexts/AppContext";
 import ScrollToTop from "../ScrollToTop";
 import QRCodeComponent from "../components/QRCode";
 import html2pdf from "html2pdf.js";
+// import domtoimage from "dom-to-image";
+// import jsPDF from "jspdf";
 import { useEffect } from "react";
+import html2canvas from "html2canvas";
 
 const Card = () => {
   const { formData, cardData, setFormData } = useAppContext();
-  // console.log("cardData", cardData);
-  // console.log("formData", formData);
 
   const qrCodeText = JSON.stringify(formData);
 
@@ -23,6 +24,23 @@ const Card = () => {
     };
 
     html2pdf().set(opt).from(element).save();
+  };
+
+  const convertToImageAndDownload = () => {
+    const element = document.getElementById("card");
+
+    html2canvas(element).then((canvas) => {
+      // Convert canvas to image data URL
+      const dataURL = canvas.toDataURL("image/png");
+
+      // Create a link element
+      const link = document.createElement("a");
+      link.href = dataURL;
+      link.download = "card.png"; // Set the download filename
+
+      // Trigger the download
+      link.click();
+    });
   };
 
   useEffect(() => {
@@ -129,7 +147,13 @@ const Card = () => {
                 onClick={convertToPdfAndDownload}
                 className="w-[200px] px-5 py-2 bg-[#e27631] uppercase text-[.85rem] text-white font-medium hover:bg-[#e27631]/70"
               >
-                Download PDF
+                Download File
+              </button>
+              <button
+                onClick={convertToImageAndDownload}
+                className="w-[200px] px-5 py-2 bg-[#e27631] uppercase text-[.85rem] text-white font-medium hover:bg-[#e27631]/70 mt-4 md:mx-4"
+              >
+                Download Image
               </button>
             </>
           ) : (
