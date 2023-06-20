@@ -43,6 +43,18 @@ const Card = () => {
     });
   };
 
+  async function convertToDataURL(source) {
+    const blob = await fetch(source).then((result) => result.blob());
+    const dataUrl = await new Promise((resolve) => {
+      let reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+    return dataUrl;
+  }
+
+  // console.log(formData);
+
   useEffect(() => {
     if (cardData?.first_name) {
       setFormData(cardData);
@@ -59,7 +71,7 @@ const Card = () => {
           formData?.last_name &&
           formData?.photo &&
           formData?.department &&
-          formData?.nationality &&
+          formData?.matric &&
           formData?.level &&
           formData?.dob &&
           formData?.school ? (
@@ -79,7 +91,7 @@ const Card = () => {
           formData?.last_name &&
           formData?.photo &&
           formData?.department &&
-          formData?.nationality &&
+          formData?.matric &&
           formData?.level &&
           formData?.dob &&
           formData?.school ? (
@@ -106,10 +118,8 @@ const Card = () => {
                         </span>
                       </p>
                       <p>
-                        Nationality:{" "}
-                        <span className="font-bold">
-                          {formData?.nationality}
-                        </span>
+                        Matric No:{" "}
+                        <span className="font-bold">{formData?.matric}</span>
                       </p>
                       <p>
                         Date of Birth:{" "}
@@ -135,6 +145,7 @@ const Card = () => {
                         alt=""
                         src={formData?.photo}
                         className="w-full h-auto"
+                        crossOrigin="true"
                       />
                     </div>
                   </div>

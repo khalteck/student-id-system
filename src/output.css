@@ -574,11 +574,6 @@ video {
   float: right;
 }
 
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
 .mb-3 {
   margin-bottom: 0.75rem;
 }
@@ -587,16 +582,16 @@ video {
   margin-right: 25px;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .mt-5 {
   margin-top: 1.25rem;
 }
 
 .mt-7 {
   margin-top: 1.75rem;
-}
-
-.mt-4 {
-  margin-top: 1rem;
 }
 
 .block {
@@ -650,10 +645,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[100px\] {
-  height: 100px;
 }
 
 .min-h-\[300px\] {
@@ -829,14 +820,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-\[url\(\'\$\{formData\?\.photo\}\'\)\] {
-  background-image: url('${formData?.photo}');
-}
-
-.bg-\[url\(\'https\:\/\/firebasestorage\.googleapis\.com\/v0\/b\/student-id-system-be09d\.appspot\.com\/o\/photos\%2FEren-test-Yeager\?alt\=media\&token\=bfbb4fdc-662e-4291-9fb6-e43d7206bb8a\'\)\] {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/student-id-system-be09d.appspot.com/o/photos%2FEren-test-Yeager?alt=media&token=bfbb4fdc-662e-4291-9fb6-e43d7206bb8a');
 }
 
 .p-1 {

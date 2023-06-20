@@ -25,7 +25,7 @@ const Homepage = () => {
       formData?.last_name &&
       formData?.middle_name &&
       formData?.dob &&
-      formData?.nationality &&
+      formData?.matric &&
       formData?.school &&
       formData?.level
     ) {
@@ -144,22 +144,16 @@ const Homepage = () => {
               />
             </div>
             <div className="w-full">
-              <label htmlFor="nationality">Nationality</label>
-              <select
-                id="nationality"
-                value={formData?.nationality}
+              <label htmlFor="matric">Matric No</label>
+              <input
+                type="text"
+                id="matric"
+                value={formData?.matric}
                 onChange={handleChange}
                 className={`w-full p-2 border outline-[#e27631]/50 ${
-                  validateErr && !formData?.nationality
-                    ? "border-red-500"
-                    : null
+                  validateErr && !formData?.matric ? "border-red-500" : null
                 }`}
-              >
-                <option value="" hidden>
-                  Select
-                </option>
-                <option value="nigerian">Nigerian</option>
-              </select>
+              />
             </div>
 
             <div className="w-full">

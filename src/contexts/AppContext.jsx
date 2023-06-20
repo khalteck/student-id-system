@@ -27,7 +27,7 @@ const AppContextProvider = ({ children }) => {
     middle_name: "",
     last_name: "",
     dob: "",
-    nationality: "",
+    matric: "",
     school: "",
     level: "",
     department: "",
@@ -130,11 +130,20 @@ const AppContextProvider = ({ children }) => {
         await uploadBytes(storageRef, selectedFile);
         const path = `photos/${user}`;
 
+        // Modify this part
         const imageRef = ref(storage, path);
-        const downloadURL = await getDownloadURL(imageRef);
+        // Set CORS headers
+        const headers = new Headers();
+        headers.append("Access-Control-Allow-Origin", "*");
+        headers.append("Access-Control-Allow-Headers", "Authorization");
+
+        const downloadURL = await getDownloadURL(imageRef, {
+          headers: headers,
+        });
         setFormData((prev) => ({
           ...prev,
           photo: downloadURL,
+          photo_name: selectedFile.name,
         }));
         console.log("Uploaded photo!");
       } catch (error) {
