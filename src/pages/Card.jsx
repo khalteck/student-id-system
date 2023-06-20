@@ -19,11 +19,21 @@ const Card = () => {
       margin: 1,
       filename: `card.pdf`,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
     };
 
     html2pdf().set(opt).from(element).save();
+
+    //   exportToPDF() {
+    //     html2pdf(document.getElementById("card"), {
+    //         margin: 1,
+    //         filename: "i-was-html.pdf",
+    //         html2canvas: {
+    //             useCORS: true,
+    //         },
+    //     });
+    // }
   };
 
   const convertToImageAndDownload = () => {
@@ -53,7 +63,7 @@ const Card = () => {
     return dataUrl;
   }
 
-  // console.log(formData);
+  console.log(formData);
 
   useEffect(() => {
     if (cardData?.first_name) {
@@ -160,12 +170,12 @@ const Card = () => {
               >
                 Download File
               </button>
-              <button
+              {/* <button
                 onClick={convertToImageAndDownload}
                 className="w-[200px] px-5 py-2 bg-[#e27631] uppercase text-[.85rem] text-white font-medium hover:bg-[#e27631]/70 mt-4 md:mx-4"
               >
                 Download Image
-              </button>
+              </button> */}
             </>
           ) : (
             <p className="text-center">Nothing yet...</p>
