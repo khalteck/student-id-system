@@ -43,17 +43,7 @@ const Card = () => {
     });
   };
 
-  async function convertToDataURL(source) {
-    const blob = await fetch(source).then((result) => result.blob());
-    const dataUrl = await new Promise((resolve) => {
-      let reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
-    return dataUrl;
-  }
-
-  console.log(formData);
+  // console.log(formData);
 
   useEffect(() => {
     if (cardData?.first_name) {
