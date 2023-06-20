@@ -3,13 +3,23 @@ import { useAppContext } from "../contexts/AppContext";
 import ScrollToTop from "../ScrollToTop";
 import QRCodeComponent from "../components/QRCode";
 import html2pdf from "html2pdf.js";
-// import domtoimage from "dom-to-image";
-// import jsPDF from "jspdf";
 import { useEffect } from "react";
 import html2canvas from "html2canvas";
 
 const Card = () => {
   const { formData, cardData, setFormData } = useAppContext();
+
+  function capitalizeFirstLetter(str) {
+    if (typeof str !== "string") {
+      throw new Error("Input must be a string.");
+    }
+
+    if (str.length === 0) {
+      return str;
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   const qrCodeText = JSON.stringify(formData);
 
@@ -87,8 +97,9 @@ const Card = () => {
           formData?.school ? (
             <>
               <p className="tracking-wider">
-                {formData?.first_name} {formData?.last_name}, you have
-                successfully registered for your student ID!
+                {capitalizeFirstLetter(formData?.first_name)}{" "}
+                {formData?.last_name}, you have successfully registered for your
+                student ID!
                 <br />
                 <br /> Find below:
               </p>
@@ -103,8 +114,8 @@ const Card = () => {
                       <p>
                         Name:{" "}
                         <span className="font-bold">
-                          {formData?.first_name} {formData?.middle_name}{" "}
-                          {formData?.last_name}
+                          {capitalizeFirstLetter(formData?.first_name)}{" "}
+                          {formData?.middle_name} {formData?.last_name}
                         </span>
                       </p>
                       <p>
@@ -117,16 +128,20 @@ const Card = () => {
                       </p>
                       <p>
                         School:{" "}
-                        <span className="font-bold">{formData?.school}</span>
+                        <span className="font-bold">
+                          {capitalizeFirstLetter(formData?.school)}
+                        </span>
                       </p>
                       <p>
                         Level:{" "}
-                        <span className="font-bold">{formData?.level}</span>
+                        <span className="font-bold">
+                          {capitalizeFirstLetter(formData?.level)}
+                        </span>
                       </p>
                       <p>
                         Department:{" "}
                         <span className="font-bold">
-                          {formData?.department}
+                          {capitalizeFirstLetter(formData?.department)}
                         </span>
                       </p>
                     </div>
