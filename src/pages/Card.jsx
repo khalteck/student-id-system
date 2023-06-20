@@ -24,22 +24,12 @@ const Card = () => {
     };
 
     html2pdf().set(opt).from(element).save();
-
-    //   exportToPDF() {
-    //     html2pdf(document.getElementById("card"), {
-    //         margin: 1,
-    //         filename: "i-was-html.pdf",
-    //         html2canvas: {
-    //             useCORS: true,
-    //         },
-    //     });
-    // }
   };
 
   const convertToImageAndDownload = () => {
     const element = document.getElementById("card");
 
-    html2canvas(element).then((canvas) => {
+    html2canvas(element, { useCORS: true }).then((canvas) => {
       // Convert canvas to image data URL
       const dataURL = canvas.toDataURL("image/png");
 
@@ -170,12 +160,12 @@ const Card = () => {
               >
                 Download File
               </button>
-              {/* <button
+              <button
                 onClick={convertToImageAndDownload}
                 className="w-[200px] px-5 py-2 bg-[#e27631] uppercase text-[.85rem] text-white font-medium hover:bg-[#e27631]/70 mt-4 md:mx-4"
               >
                 Download Image
-              </button> */}
+              </button>
             </>
           ) : (
             <p className="text-center">Nothing yet...</p>
